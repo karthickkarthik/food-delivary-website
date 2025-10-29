@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - FoodHub</title>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍔</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <i class="fas fa-utensils"></i>
+                    <span>FoodHub</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="restaurants.html">Restaurants</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="nav-right">
+                    <a href="cart.html" class="cart-icon active">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                    <a href="login.html" class="login-btn" id="authBtn">Login</a>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Shopping Cart</h1>
+            <p>Review your order before checkout</p>
+        </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section class="cart-section">
+        <div class="container">
+            <div class="cart-layout">
+                <!-- Cart Items -->
+                <div class="cart-items-container">
+                    <div id="cartItemsArea">
+                        <!-- Cart items will be loaded here -->
+                    </div>
+                    <div id="emptyCart" style="display: none;">
+                        <div class="empty-cart">
+                            <i class="fas fa-shopping-cart"></i>
+                            <h2>Your cart is empty</h2>
+                            <p>Add some delicious food to get started!</p>
+                            <a href="menu.html" class="btn-primary">Browse Menu</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <h2>Order Summary</h2>
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="subtotal">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery Fee</span>
+                        <span id="deliveryFee">$5.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax (10%)</span>
+                        <span id="tax">$0.00</span>
+                    </div>
+                    <div class="summary-row discount-row" id="discountRow" style="display: none;">
+                        <span>Discount</span>
+                        <span id="discount">-$0.00</span>
+                    </div>
+                    <hr>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="total">$0.00</span>
+                    </div>
+
+                    <!-- Coupon Code -->
+                    <div class="coupon-section">
+                        <h3>Have a coupon code?</h3>
+                        <div class="coupon-input-group">
+                            <input type="text" id="couponInput" placeholder="Enter coupon code">
+                            <button onclick="applyCoupon()">Apply</button>
+                        </div>
+                        <div id="couponMessage"></div>
+                        <div class="available-coupons">
+                            <p>Available coupons:</p>
+                            <span class="coupon-tag" onclick="document.getElementById('couponInput').value='FIRST50'">FIRST50</span>
+                            <span class="coupon-tag" onclick="document.getElementById('couponInput').value='WEEKEND30'">WEEKEND30</span>
+                            <span class="coupon-tag" onclick="document.getElementById('couponInput').value='FREEDEL'">FREEDEL</span>
+                        </div>
+                    </div>
+
+                    <button class="checkout-btn" onclick="proceedToCheckout()">
+                        <i class="fas fa-lock"></i> Proceed to Checkout
+                    </button>
+                    <a href="menu.html" class="continue-shopping">
+                        <i class="fas fa-arrow-left"></i> Continue Shopping
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content checkout-modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Checkout</h2>
+            <form id="checkoutForm">
+                <div class="checkout-steps">
+                    <div class="step active" data-step="1">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Delivery Details</span>
+                    </div>
+                    <div class="step" data-step="2">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Payment</span>
+                    </div>
+                </div>
+
+                <!-- Step 1: Delivery Details -->
+                <div class="checkout-step-content" id="step1">
+                    <h3>Delivery Information</h3>
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="deliveryName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" id="deliveryPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="deliveryEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Delivery Address *</label>
+                        <textarea id="deliveryAddress" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>City *</label>
+                        <input type="text" id="deliveryCity" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Zip Code *</label>
+                            <input type="text" id="deliveryZip" required>
+                        </div>
+                        <div class="form-group">
+                            <label>State *</label>
+                            <input type="text" id="deliveryState" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Delivery Instructions (Optional)</label>
+                        <textarea id="deliveryInstructions" rows="2" placeholder="E.g., Ring the bell, leave at door..."></textarea>
+                    </div>
+                    <button type="button" class="btn-primary" onclick="nextStep()">Continue to Payment</button>
+                </div>
+
+                <!-- Step 2: Payment -->
+                <div class="checkout-step-content" id="step2" style="display: none;">
+                    <h3>Payment Method</h3>
+                    <div class="payment-methods">
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="cod" checked>
+                            <div class="payment-card">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span>Cash on Delivery</span>
+                            </div>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="card">
+                            <div class="payment-card">
+                                <i class="fas fa-credit-card"></i>
+                                <span>Credit/Debit Card</span>
+                            </div>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="upi">
+                            <div class="payment-card">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>UPI Payment</span>
+                            </div>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="wallet">
+                            <div class="payment-card">
+                                <i class="fas fa-wallet"></i>
+                                <span>Digital Wallet</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div id="cardDetails" style="display: none;">
+                        <div class="form-group">
+                            <label>Card Number</label>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+                        <div class="form-group">
+                            <label>Cardholder Name</label>
+                            <input type="text" id="cardName" placeholder="John Doe">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Expiry Date</label>
+                                <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="form-group">
+                                <label>CVV</label>
+                                <input type="text" id="cardCvv" placeholder="123" maxlength="3">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-summary-checkout">
+                        <h4>Order Total: <span id="checkoutTotal">$0.00</span></h4>
+                    </div>
+
+                    <div class="checkout-actions">
+                        <button type="button" class="btn-secondary" onclick="previousStep()">Back</button>
+                        <button type="submit" class="btn-primary">Place Order</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3><i class="fas fa-utensils"></i> FoodHub</h3>
+                    <p>Your favorite food delivered fast, fresh, and hot to your doorstep. We connect you with the best restaurants in town for the ultimate food delivery experience.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com" target="_blank" aria-label="Facebook" class="social-icon facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.twitter.com" target="_blank" aria-label="Twitter" class="social-icon twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.instagram.com" target="_blank" aria-label="Instagram" class="social-icon instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn" class="social-icon linkedin">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://www.youtube.com" target="_blank" aria-label="YouTube" class="social-icon youtube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="menu.html"><i class="fas fa-utensils"></i> Menu</a></li>
+                        <li><a href="restaurants.html"><i class="fas fa-store"></i> Restaurants</a></li>
+                        <li><a href="blog.html"><i class="fas fa-blog"></i> Blog</a></li>
+                        <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Customer Service</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                        <li><a href="#"><i class="fas fa-headset"></i> Support Center</a></li>
+                        <li><a href="order-tracking.html"><i class="fas fa-truck"></i> Track Order</a></li>
+                        <li><a href="#"><i class="fas fa-undo"></i> Return Policy</a></li>
+                        <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+                        <li><a href="#"><i class="fas fa-file-contract"></i> Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Contact Info</h4>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> <span>123 Food Street, New York, USA 10001</span></li>
+                        <li><i class="fas fa-phone"></i> <span>+1 (234) 567-8900</span></li>
+                        <li><i class="fas fa-envelope"></i> <span>support@foodhub.com</span></li>
+                        <li><i class="fas fa-clock"></i> <span>Mon-Sun: 8:00 AM - 11:00 PM</span></li>
+                    </ul>
+                    
+                    <div class="newsletter">
+                        <h4 style="margin-top: 1.5rem; margin-bottom: 1rem;">Newsletter</h4>
+                        <p style="font-size: 0.9rem; margin-bottom: 1rem;">Subscribe to get special offers and updates</p>
+                        <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+                            <input type="email" placeholder="Enter your email" required>
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2025 FoodHub. All rights reserved.</p>
+                    <div class="footer-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/checkout.js"></script>
+</body>
+</html>
+

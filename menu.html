@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - FoodHub</title>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍔</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <i class="fas fa-utensils"></i>
+                    <span>FoodHub</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html" class="active">Menu</a></li>
+                    <li><a href="restaurants.html">Restaurants</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="nav-right">
+                    <a href="cart.html" class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                    <a href="login.html" class="login-btn" id="authBtn">Login</a>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Our Menu</h1>
+            <p>Explore delicious dishes from various cuisines</p>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu-section">
+        <div class="container">
+            <div class="menu-layout">
+                <!-- Filters Sidebar -->
+                <aside class="filters-sidebar">
+                    <div class="filter-group">
+                        <h3>Search</h3>
+                        <input type="text" id="searchInput" placeholder="Search dishes...">
+                    </div>
+
+                    <div class="filter-group">
+                        <h3>Cuisine</h3>
+                        <div class="filter-options">
+                            <label><input type="checkbox" class="cuisine-filter" value="all" checked> All</label>
+                            <label><input type="checkbox" class="cuisine-filter" value="Italian"> Italian</label>
+                            <label><input type="checkbox" class="cuisine-filter" value="Chinese"> Chinese</label>
+                            <label><input type="checkbox" class="cuisine-filter" value="Indian"> Indian</label>
+                            <label><input type="checkbox" class="cuisine-filter" value="Mexican"> Mexican</label>
+                            <label><input type="checkbox" class="cuisine-filter" value="American"> American</label>
+                            <label><input type="checkbox" class="cuisine-filter" value="Japanese"> Japanese</label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h3>Diet Preference</h3>
+                        <div class="filter-options">
+                            <label><input type="radio" name="diet" class="diet-filter" value="all" checked> All</label>
+                            <label><input type="radio" name="diet" class="diet-filter" value="veg"> <span class="veg-badge">VEG</span> Vegetarian</label>
+                            <label><input type="radio" name="diet" class="diet-filter" value="non-veg"> <span class="non-veg-badge">NON-VEG</span> Non-Vegetarian</label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h3>Price Range</h3>
+                        <div class="filter-options">
+                            <label><input type="checkbox" class="price-filter" value="low"> $ Budget Friendly</label>
+                            <label><input type="checkbox" class="price-filter" value="medium"> $$ Moderate</label>
+                            <label><input type="checkbox" class="price-filter" value="high"> $$$ Premium</label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h3>Rating</h3>
+                        <div class="filter-options">
+                            <label><input type="radio" name="rating" class="rating-filter" value="all" checked> All Ratings</label>
+                            <label><input type="radio" name="rating" class="rating-filter" value="4"> 4+ <i class="fas fa-star"></i></label>
+                            <label><input type="radio" name="rating" class="rating-filter" value="3"> 3+ <i class="fas fa-star"></i></label>
+                        </div>
+                    </div>
+
+                    <button class="clear-filters-btn" onclick="clearFilters()">Clear All Filters</button>
+                </aside>
+
+                <!-- Menu Content -->
+                <div class="menu-content">
+                    <div class="menu-toolbar">
+                        <div class="results-count">
+                            Showing <span id="resultsCount">0</span> dishes
+                        </div>
+                        <div class="sort-options">
+                            <label>Sort by:</label>
+                            <select id="sortSelect">
+                                <option value="popularity">Popularity</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="rating">Rating</option>
+                                <option value="name">Name (A-Z)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="menu-grid" id="menuGrid">
+                        <!-- Menu items will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick View Modal -->
+    <div id="quickViewModal" class="modal">
+        <div class="modal-content quick-view-content">
+            <span class="close-modal">&times;</span>
+            <div id="quickViewDetails"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3><i class="fas fa-utensils"></i> FoodHub</h3>
+                    <p>Your favorite food delivered fast, fresh, and hot to your doorstep. We connect you with the best restaurants in town for the ultimate food delivery experience.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com" target="_blank" aria-label="Facebook" class="social-icon facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.twitter.com" target="_blank" aria-label="Twitter" class="social-icon twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.instagram.com" target="_blank" aria-label="Instagram" class="social-icon instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn" class="social-icon linkedin">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://www.youtube.com" target="_blank" aria-label="YouTube" class="social-icon youtube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="menu.html"><i class="fas fa-utensils"></i> Menu</a></li>
+                        <li><a href="restaurants.html"><i class="fas fa-store"></i> Restaurants</a></li>
+                        <li><a href="blog.html"><i class="fas fa-blog"></i> Blog</a></li>
+                        <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Customer Service</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                        <li><a href="#"><i class="fas fa-headset"></i> Support Center</a></li>
+                        <li><a href="#"><i class="fas fa-truck"></i> Track Order</a></li>
+                        <li><a href="#"><i class="fas fa-undo"></i> Return Policy</a></li>
+                        <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+                        <li><a href="#"><i class="fas fa-file-contract"></i> Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Contact Info</h4>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> <span>123 Food Street, New York, USA 10001</span></li>
+                        <li><i class="fas fa-phone"></i> <span>+1 (234) 567-8900</span></li>
+                        <li><i class="fas fa-envelope"></i> <span>support@foodhub.com</span></li>
+                        <li><i class="fas fa-clock"></i> <span>Mon-Sun: 8:00 AM - 11:00 PM</span></li>
+                    </ul>
+                    
+                    <div class="newsletter">
+                        <h4 style="margin-top: 1.5rem; margin-bottom: 1rem;">Newsletter</h4>
+                        <p style="font-size: 0.9rem; margin-bottom: 1rem;">Subscribe to get special offers and updates</p>
+                        <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+                            <input type="email" placeholder="Enter your email" required>
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2025 FoodHub. All rights reserved.</p>
+                    <div class="footer-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/menu.js"></script>
+</body>
+</html>
+

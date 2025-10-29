@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - FoodHub</title>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍔</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Admin Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <i class="fas fa-utensils"></i>
+                <span>FoodHub Admin</span>
+            </div>
+            <nav class="admin-nav">
+                <a href="#" class="admin-nav-item active" data-section="dashboard">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="#" class="admin-nav-item" data-section="restaurants">
+                    <i class="fas fa-store"></i> Restaurants
+                </a>
+                <a href="#" class="admin-nav-item" data-section="menu">
+                    <i class="fas fa-utensils"></i> Menu Items
+                </a>
+                <a href="#" class="admin-nav-item" data-section="orders">
+                    <i class="fas fa-shopping-bag"></i> Orders
+                </a>
+                <a href="#" class="admin-nav-item" data-section="users">
+                    <i class="fas fa-users"></i> Users
+                </a>
+                <a href="#" class="admin-nav-item" data-section="delivery">
+                    <i class="fas fa-motorcycle"></i> Delivery Partners
+                </a>
+                <a href="#" class="admin-nav-item" data-section="analytics">
+                    <i class="fas fa-chart-line"></i> Analytics
+                </a>
+                <a href="index.html" class="admin-nav-item">
+                    <i class="fas fa-home"></i> Back to Site
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Admin Content -->
+        <div class="admin-content">
+            <header class="admin-header">
+                <h1 id="sectionTitle">Dashboard</h1>
+                <div class="admin-user">
+                    <span>Admin User</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <div class="admin-section active" id="dashboard">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #ff6b6b;">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>1,234</h3>
+                            <p>Total Orders</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #4ecdc4;">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>$45,678</h3>
+                            <p>Total Revenue</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #95e1d3;">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>5,432</h3>
+                            <p>Total Users</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #f38181;">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>127</h3>
+                            <p>Restaurants</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-grid">
+                    <div class="admin-card">
+                        <h3>Recent Orders</h3>
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentOrdersTable">
+                                <tr>
+                                    <td>#ORD-001</td>
+                                    <td>John Doe</td>
+                                    <td>$45.50</td>
+                                    <td><span class="status-badge delivered">Delivered</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-002</td>
+                                    <td>Jane Smith</td>
+                                    <td>$32.00</td>
+                                    <td><span class="status-badge preparing">Preparing</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Restaurants Section -->
+            <div class="admin-section" id="restaurants">
+                <button class="btn-primary" onclick="showAddRestaurantModal()">
+                    <i class="fas fa-plus"></i> Add Restaurant
+                </button>
+                <div class="admin-card" style="margin-top: 20px;">
+                    <table class="admin-table" id="restaurantsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Cuisine</th>
+                                <th>Rating</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Menu Items Section -->
+            <div class="admin-section" id="menu">
+                <button class="btn-primary" onclick="showAddMenuModal()">
+                    <i class="fas fa-plus"></i> Add Menu Item
+                </button>
+                <div class="admin-card" style="margin-top: 20px;">
+                    <table class="admin-table" id="menuTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Restaurant</th>
+                                <th>Price</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Orders Section -->
+            <div class="admin-section" id="orders">
+                <div class="admin-card">
+                    <table class="admin-table" id="ordersTable">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Users Section -->
+            <div class="admin-section" id="users">
+                <div class="admin-card">
+                    <table class="admin-table" id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Orders</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Delivery Partners Section -->
+            <div class="admin-section" id="delivery">
+                <button class="btn-primary" onclick="showAddDeliveryPartnerModal()">
+                    <i class="fas fa-plus"></i> Add Delivery Partner
+                </button>
+                <div class="admin-card" style="margin-top: 20px;">
+                    <table class="admin-table" id="deliveryTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Status</th>
+                                <th>Orders Delivered</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Analytics Section -->
+            <div class="admin-section" id="analytics">
+                <div class="stats-grid">
+                    <div class="admin-card">
+                        <h3>Revenue Overview</h3>
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-bar"></i>
+                            <p>Revenue: $45,678 (This Month)</p>
+                        </div>
+                    </div>
+                    <div class="admin-card">
+                        <h3>Orders Overview</h3>
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-line"></i>
+                            <p>Orders: 1,234 (This Month)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals will be added via JavaScript -->
+    <div id="adminModals"></div>
+
+    <script src="js/data.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
+

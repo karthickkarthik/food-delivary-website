@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success - FoodHub</title>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍔</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <i class="fas fa-utensils"></i>
+                    <span>FoodHub</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Payment Success Section -->
+    <section class="payment-success-section">
+        <div class="container">
+            <div class="success-container">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h1>Payment Successful!</h1>
+                <p>Your order has been placed successfully</p>
+                
+                <div class="order-confirmation">
+                    <div class="confirmation-detail">
+                        <span>Order ID</span>
+                        <strong id="confirmOrderId">#ORD-12345</strong>
+                    </div>
+                    <div class="confirmation-detail">
+                        <span>Payment Method</span>
+                        <strong id="paymentMethod">Cash on Delivery</strong>
+                    </div>
+                    <div class="confirmation-detail">
+                        <span>Total Amount</span>
+                        <strong id="paidAmount">$45.50</strong>
+                    </div>
+                    <div class="confirmation-detail">
+                        <span>Estimated Delivery</span>
+                        <strong id="deliveryEst">30-40 mins</strong>
+                    </div>
+                </div>
+
+                <div class="confirmation-message">
+                    <i class="fas fa-info-circle"></i>
+                    <p>A confirmation email has been sent to your registered email address</p>
+                </div>
+
+                <div class="action-buttons">
+                    <a href="order-tracking.html" class="btn-primary">
+                        <i class="fas fa-map-marker-alt"></i> Track Order
+                    </a>
+                    <a href="menu.html" class="btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Continue Shopping
+                    </a>
+                </div>
+
+                <div class="order-items-summary">
+                    <h3>Order Summary</h3>
+                    <div id="orderSummaryItems">
+                        <!-- Items will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/data.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Load order details from localStorage or URL params
+        window.onload = function() {
+            updateCartCount();
+            const lastOrder = JSON.parse(localStorage.getItem('lastOrder') || '{}');
+            if (lastOrder.orderId) {
+                document.getElementById('confirmOrderId').textContent = lastOrder.orderId;
+                document.getElementById('paymentMethod').textContent = lastOrder.paymentMethod || 'Cash on Delivery';
+                document.getElementById('paidAmount').textContent = '$' + (lastOrder.total || 0).toFixed(2);
+                
+                if (lastOrder.items) {
+                    const summaryDiv = document.getElementById('orderSummaryItems');
+                    lastOrder.items.forEach(item => {
+                        summaryDiv.innerHTML += `
+                            <div class="summary-item">
+                                <span>${item.name} x ${item.quantity}</span>
+                                <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                            </div>
+                        `;
+                    });
+                }
+            }
+        };
+    </script>
+</body>
+</html>
+
